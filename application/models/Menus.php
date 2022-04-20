@@ -47,7 +47,7 @@ class Menus extends CI_Model {
     {   
         $this->db->select("padres.nombre as papa , modu.nombre as nombre, modu.url as url, modu.icono as icono");
         $this->db->from("seg_modulo modu");
-        $this->db->join('seg_modulo padres','padres.id_modulo = modu.id_modulo_padre');
+        $this->db->join('seg_modulo padres','padres.id_modulo = modu.id_modulo_padre', 'join');
         $this->db->join('seg_menus men','men.id_modulo = modu.id_modulo');
         $this->db->where("men.id_perfil", $idperfil);
         $this->db->order_by("padres.orden", "ASC");

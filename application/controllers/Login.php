@@ -50,9 +50,9 @@ class Login extends MY_Controller {
              
         $rpta = false;
 
-        $this->db->select("col.idcolaborador as id_user,col.perfil as id_perfil,col.nombre as nombre ,  per.nombre as perfil ");
-        $this->db->from('colaborador as col');
-        $this->db->join('seg_perfil per','col.perfil = per.id_perfil');
+        $this->db->select("col.id_usuario as id_user,col.id_perfil as id_perfil, col.nombres_usuario as nombre ,  per.nombre_perfil as perfil ");
+        $this->db->from('usuario as col');
+        $this->db->join('seg_perfil per','col.id_perfil = per.id_perfil');
         $this->db->where('usuario',$username);
         $this->db->where('clave',$password);
         $acceso = $this->db->get();
@@ -60,6 +60,8 @@ class Login extends MY_Controller {
         if($acceso->num_rows()==1){
 
             $datos = $acceso->row();
+
+            $this->insert_login_plataforma($datos->id_user);
 
             $array = array (
             'id_user' => $datos->id_user,
@@ -73,6 +75,29 @@ class Login extends MY_Controller {
             $rpta = true;
         }
         return $rpta;
+    }
+
+    private function insert_login_plataforma($id_usuario){
+
+        $this->load->model('usuario');
+        $this->load->model('login_plataforma');
+
+        $data_usuario_log = $this->usuario->get_info_usuario_log($id_usuario);
+        $this->login_plataforma->id_usuario = $data_usuario_log['id_usuario'];
+        $this->login_plataforma->codigo_unsm_usuario = $data_usuario_log['codigo_unsm'];
+
+        $this->login_plataforma->nombres_usuario = $data_usuario_log['nombres_usuario'];
+        $this->login_plataforma->apellidos_usuario = $data_usuario_log['apellidos_usuario'];
+        $this->login_plataforma->categoria_usuario = $data_usuario_log['categoria_usuario'];
+        $this->login_plataforma->categoria_docente = $data_usuario_log['categoria_docente'];
+        $this->login_plataforma->estado_usuario = $data_usuario_log['estado_usuario'];
+
+        $this->login_plataforma->id_escuela_profesional = $data_usuario_log['id_escuela_profesional'];
+        $this->login_plataforma->nombre_escuela = $data_usuario_log['nombre_escuela'];
+
+        
+        $this->login_plataforma->insert_login_plataforma();
+
     }
 
     public function logout(){

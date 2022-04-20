@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class MY_Controller extends CI_Controller {
 
     //constructor, debe llamar al constructor de la clase parent
-    public $sistema = 'LM-sis';
+    public $sistema = 'FACSA';
     
     public $controller = '';
     public $metodo = '';
@@ -13,14 +13,14 @@ class MY_Controller extends CI_Controller {
     public $nombre_usuario = '';
     public $perfil_usuario = '';
 
-    public $nombre_empresa = 'LUCKI MOTORS ';
-    public $nombre_empresa_abreviado = 'Lucki Motors';
+    public $nombre_empresa = 'FACSA Biblioteca Virtual ';
+    public $nombre_empresa_abreviado = 'Biblioteca Virtual';
     public $logo_empresa = 'assets/img/logo_empresa.jpg';
-    public $razon_social = 'LUCKI MOTORS DEL PERU S.R.L.';
+    public $razon_social = 'Biblioteca Virtual UNSM';
     public $ruc = '20531452055';
     public $direccion = 'PZA.PLAZA MAYOR NRO. S-N';//'Jr. Alfonso ugarte Nro. 1800, Bar. Shucapampa - CAJAMARCA';
     public $contacto = 'Telf. 0';
-    public $rubro = 'Venta de vehículos automotores, fabricación otros equipos de transporte y venta al por mayor de materiales de construcción, articulos de ferretería y equipo y materiales de fontanería y calefacción ';
+    public $rubro = 'Biblioteca Virtual ';
 
     public $id_ticket = 1;
     public $id_boleta = 3;
@@ -71,6 +71,8 @@ class MY_Controller extends CI_Controller {
         $this->load->model('menus');
         $menu_usuario = $this->menus->get_menu($this->session->userdata('id_perfil'));
 
+        //print_r($menu_usuario);exit();
+
         $modulo_papa_flag = '';
         $menu = '';     
 
@@ -93,13 +95,30 @@ class MY_Controller extends CI_Controller {
                 $modulo_papa_flag = $modulo->papa;   
 
             }
-            $menu .=  "<li><a href='".base_url($modulo->url)."'><i class='fa {$modulo->icono}'></i> {$modulo->nombre}</a></li>"; 
+            if ($modulo->url != '#') {
+                $modulo_url = base_url($modulo->url);
+            }else{
+                $modulo_url = "javascript:void(0);";
+            }
+            $menu .=  "<li><a href='".$modulo_url."'><i class='fa {$modulo->icono}'></i> {$modulo->nombre}</a></li>"; 
 
         }
 
         return $menu;
         // exit();
     } 
+
+    public function the_owner()
+    {
+        echo "<pre>";
+        echo "---------------------------------------------------------------------<br>----cCCCCc------cCCCCc----/TTTTTTTTTT\-------------------------------<br>";
+        echo "---CC-----c----CC-----c-------\TT/-----------------------------------<br>--cC----------cC---------------TT------------------------------------<br>";
+        echo "--cC----------cC---------------TT------------------------------------<br>---CC-----c----CC-----c--------TT------------------------------------<br>";
+        echo "----cCCCCc------cCCCCc---------TT------------------------------------<br>---------------------------------------------------------------------<br>";
+        echo "--COLBERT-MOISES-BRYAN-CALAMPA-TANTACHUCO----------------------------<br>--19960606--19960909--PERU--UNSM--ADMIN6--TREBLOC--------------------<br>";
+        echo "---------------------------------------------------------------------<br>";
+        echo "</pre>";
+    }
 
     
     
